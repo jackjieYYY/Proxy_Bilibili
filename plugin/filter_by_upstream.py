@@ -23,14 +23,15 @@ class FilterByUpstreamHostPlugin(HttpProxyBasePlugin):
 
     def before_upstream_connection(
             self, request: HttpParser) -> Optional[HttpParser]:
-        if request.host not in self.FILTERED_DOMAINS:
-            raise HttpRequestRejected(
-                status_code=httpStatusCodes.I_AM_A_TEAPOT, reason=b'I\'m a tea pot',
-                headers={
-                    b'Connection': b'close',
-                }
-            )
-        return request
+        if request.host in self.FILTERED_DOMAINS:
+            return request
+
+        raise HttpRequestRejected(
+            status_code=httpStatusCodes.I_AM_A_TEAPOT, reason=b'I\'m a tea pot',
+            headers={
+                b'Connection': b'close',
+            }
+        )
 
     def handle_client_request(
             self, request: HttpParser) -> Optional[HttpParser]:
