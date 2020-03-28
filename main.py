@@ -9,13 +9,14 @@ app = Flask(__name__)
 @app.route("/path/<path:path>")
 def before_request(path):
 
+    method = request.method
     data = request.data or request.form or None
     headers = dict()
     for name, value in request.headers:
         if name == 'Host':
             continue
         headers[name] = value
-    r = requests.get(url=path, headers=headers, data=data)
+    r = requests.request(method=method,url=path, headers=headers, data=data)
     return r.content
 
 
