@@ -31,8 +31,8 @@ def before_request():
             resp_headers.append((name, value))
         return Response(r, status=r.status_code, headers=resp_headers)
 
-    app.run(
-        host = '0.0.0.0',
-        port = 7777,  
-        debug = True 
-        )
+app.run(
+    host = '0.0.0.0',
+    port = 7777,  
+    debug = True 
+    )
