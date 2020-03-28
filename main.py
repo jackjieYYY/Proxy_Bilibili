@@ -18,6 +18,7 @@ def before_request(path):
             continue
         headers[name] = value
     headers["Host"]="www.bilibili.com"
+    print(headers)
     r = requests.request(method=method,url=path, headers=headers, data=data)
     return redirect(path,Response=r)
     return r.content
