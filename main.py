@@ -5,31 +5,16 @@ from flask import Flask, request, Response,abort
 
 app = Flask(__name__)
 
-@app.before_request
-def before_request():
 
+@app.before_request
+def proxy():
     #if not filter(request):
     #    return abort(403)
-
+    headers = {h[0]: h[1] for h in request.headers}
     url = request.url
-    method = request.method
-    data = request.data or request.form or None
-    headers = dict()
-    for name, value in request.headers:
-        if not value or name == 'Cache-Control':
-            continue
-        headers[name] = value
+    # 一些自己的逻辑...
+    return requests.request(request.method, url, data=request.json, headers=headers).content
 
-    with closing(
-        requests.request(method, url, headers=headers, data=data, stream=True)
-    ) as r:
-        resp_headers = []
-        for name, value in r.headers.items():
-            if name.lower() in ('content-length', 'connection',
-                                'content-encoding'):
-                continue
-            resp_headers.append((name, value))
-        return Response(r, status=r.status_code, headers=resp_headers)
 
 def filter(request):
     if( 'bilibili.com/bangumi/play/' in request.url):
