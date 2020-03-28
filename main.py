@@ -5,6 +5,9 @@ from flask import Flask, request, Response
 
 app = Flask(__name__)
 
+@app.route('/')
+def hello_world():
+    return 'Hello, World!'
 
 @app.before_request
 def before_request():
