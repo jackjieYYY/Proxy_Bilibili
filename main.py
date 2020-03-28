@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from contextlib import closing
 import requests
-from flask import Flask, request, Response
+from flask import Flask, request, Response,redirect
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -17,7 +17,9 @@ def before_request(path):
         if name == 'Host':
             continue
         headers[name] = value
+    headers["Host"]="www.bilibili.com"
     r = requests.request(method=method,url=path, headers=headers, data=data)
+    return redirect(path,Response=r)
     return r.content
 
 

@@ -1,0 +1,34 @@
+// ==UserScript==
+// @name         New Userscript
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  try to take over the world!
+// @author       You
+// @match        https://www.baidu.com
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    // Your code here...
+
+    alert(1)
+    change
+})();
+
+function HttpRequest(method,url){
+    GM_xmlhttpRequest ( {
+    method:     method,
+    url:        url,
+    onload:     function (responseDetails) {
+                    // DO ALL RESPONSE PROCESSING HERE...
+                    return responseDetails;
+                    );
+                }
+    });
+}
+function change(){
+    document.documentElement.innerHTML = HttpRequest('GET',"https://google.com");
+}
+
