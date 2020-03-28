@@ -17,7 +17,7 @@ def before_request(path):
         if name == 'Host':
             continue
         headers[name] = value
-    headers["Host"]="www.bilibili.com"
+    #headers["Host"]="www.bilibili.com"
     print(headers)
     r = requests.request(method=method,url=path, headers=headers, data=data)
     return redirect(path,Response=r)
