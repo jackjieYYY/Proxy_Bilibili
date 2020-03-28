@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 from contextlib import closing
 import requests
-from flask import Flask, request, Response
+from flask import Flask, request, Response,abort
 
 app = Flask(__name__)
 
-@app.route('/')
-def hello_world():
-    return 'Hello, World!'
-
 @app.before_request
 def before_request():
+
+    #if not filter(request):
+    #    return abort(403)
+
     url = request.url
     method = request.method
     data = request.data or request.form or None
@@ -30,6 +30,13 @@ def before_request():
                 continue
             resp_headers.append((name, value))
         return Response(r, status=r.status_code, headers=resp_headers)
+
+def filter(request):
+    if( 'bilibili.com/bangumi/play/' in request.url):
+        return True
+    else:
+        return False
+
 
 app.run(
     host = '0.0.0.0',
