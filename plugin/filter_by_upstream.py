@@ -19,11 +19,11 @@ from ..http.proxy import HttpProxyBasePlugin
 class FilterByUpstreamHostPlugin(HttpProxyBasePlugin):
     """Drop traffic by inspecting upstream host."""
 
-    FILTERED_DOMAINS = [b'google.com']
+    FILTERED_DOMAINS = [b'bilibili.com']
 
     def before_upstream_connection(
             self, request: HttpParser) -> Optional[HttpParser]:
-        if request.host in self.FILTERED_DOMAINS:
+        if request.host not in self.FILTERED_DOMAINS:
             raise HttpRequestRejected(
                 status_code=httpStatusCodes.I_AM_A_TEAPOT, reason=b'I\'m a tea pot',
                 headers={
